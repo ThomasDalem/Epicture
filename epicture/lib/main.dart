@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/home',
-      routes: {'/home': (_) => HomePage(), '/login': (_) => LoginPage()},
+      routes: {'/home': (_) => HomePage()},
     );
   }
 }
@@ -29,7 +29,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var _url = "";
+
   @override
+  void waitLoginResult() async {
+    final result =
+        await Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+    _url = result;
+    log("Received URL is $_url");
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -38,8 +47,9 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/login');
+            waitLoginResult();
           },
+          child: const Text("Log in"),
         ),
       ),
     );
@@ -65,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           _history.add('onUrlChanged: $url');
         });
+        Navigator.pop(context, url);
       }
     });
   }
@@ -77,8 +88,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget build(BuildContext context) {
     return new WebviewScaffold(
-      url:
-          "https://api.imgur.com/oauth2/authorize?client_id=8cd66f037fcd783&response_type=token",
+      url: "https://api.imgur.com/oauth2/authorize?client_id=8cd66f037fcd783&response_type=token",
       appBar: new AppBar(title: new Text("Connection à Imgur")),
     );
   }
