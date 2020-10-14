@@ -2,8 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() => runApp(MyApp());
+
+final storage = new FlutterSecureStorage();
 
 class MyApp extends StatelessWidget {
   @override
@@ -37,6 +40,10 @@ class _HomePageState extends State<HomePage> {
         await Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
     _url = result;
     log("Received URL is $_url");
+    storage.write(key: 'access_token', value: _url.substring(56, 96)).asStream();
+    storage.write(key: 'refresh_token', value: _url.substring(150, 190)).asStream();
+    //print("access = " + await storage.read(key: 'access_token'));
+    //print("access = " + await storage.read(key: 'refresh_token'));
   }
 
   Widget build(BuildContext context) {
