@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,41 +17,69 @@ class MyApp extends StatelessWidget {
         primaryColorDark: Color(0xFF5a1ea0),
       ),
       debugShowCheckedModeBanner: false,
-      home: MyLoginPage(),
+      initialRoute: '/home',
+      routes: {'/home': (_) => HomePage(), '/login': (_) => LoginPage()},
     );
   }
 }
 
-class MyLoginPage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _MyLoginPageState createState() => _MyLoginPageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyLoginPageState extends State<MyLoginPage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(hintText: 'Username or email'),
-              ),
-              TextFormField(
-                decoration: InputDecoration(hintText: 'Password'),
-                obscureText: true,
-              ),
-              RaisedButton(
-                onPressed: () {},
-                child: Text('Login'),
-              )
-            ],
-          ),
+      appBar: AppBar(
+        title: Text('HomePage'),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/login');
+          },
         ),
       ),
+    );
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final flutterWebViewPlugin = FlutterWebviewPlugin();
+  StreamSubscription<String> _onURLChanged;
+  final _history = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _onURLChanged = flutterWebViewPlugin.onUrlChanged.listen((String url) {
+      if (mounted) {
+        setState(() {
+          _history.add('onUrlChanged: $url');
+        });
+      }
+    });
+  }
+
+  void dispose() {
+    _onURLChanged.cancel();
+    flutterWebViewPlugin.dispose();
+    super.dispose();
+  }
+
+  Widget build(BuildContext context) {
+    return new WebviewScaffold(
+      url:
+          "https://api.imgur.com/oauth2/authorize?client_id=8cd66f037fcd783&response_type=token",
+      appBar: new AppBar(title: new Text("Connection à Imgur")),
     );
   }
 }
