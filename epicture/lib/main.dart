@@ -17,13 +17,14 @@ class MyApp extends StatelessWidget {
       title: 'Epicture',
       theme: ThemeData(
         fontFamily: 'Arial',
-        backgroundColor: Color(0xFF3C3C3C),
+        backgroundColor: Color(0xFFFFFFFF),
         primaryColorLight: Color(0xFF8c32fa),
-        primaryColorDark: Color(0xFF5a1ea0),
+        primaryColorDark: Color(0xFF3C3C3C),
+        primaryColor: Color(0xFF5a1ea0),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/home',
-      routes: {'/home': (_) => StartPage()},
+      initialRoute: '/login',
+      routes: {'/login': (_) => StartPage()},
     );
   }
 }
