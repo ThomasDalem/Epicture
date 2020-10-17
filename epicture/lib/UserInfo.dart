@@ -6,6 +6,7 @@ class UserInfo with ChangeNotifier {
   String refreshToken;
   String accountUsername;
   int accountID;
+  String avatarUrl = "";
 
   String _parseURLKey(String url, String key) {
     int startIndex = url.indexOf(key);
@@ -42,12 +43,17 @@ class UserInfo with ChangeNotifier {
     notifyListeners();
   }
 
+  void getAvatar(String url) {
+    avatarUrl = url;
+  }
+
   void logoutUser() {
     accessToken = null;
     expiresIn = null;
     refreshToken = null;
     accountUsername = null;
     accountID = null;
+    avatarUrl = null;
     notifyListeners();
   }
 }
