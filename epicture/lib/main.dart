@@ -1,18 +1,16 @@
+import 'package:epicture/LoginPage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'StartPage.dart';
 import 'UserInfo.dart';
+import 'LoginPage.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(ChangeNotifierProvider<UserInfo>(
+    create: (context) => UserInfo(), child: MyApp()));
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    UserInfo.accessToken = null;
-    UserInfo.expiresIn = null;
-    UserInfo.refreshToken = null;
-    UserInfo.accountUsername = null;
-    UserInfo.accountID = null;
     return MaterialApp(
       title: 'Epicture',
       theme: ThemeData(
