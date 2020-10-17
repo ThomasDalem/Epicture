@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 
 import 'UserInfo.dart';
 import 'CustomProfilAppBarButton.dart';
+import 'JsonImageParser.dart';
+import 'ImageWidget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> _imagesURL = List<String>();
+  List<ImageData> _images = List<ImageData>();
 
   @override
   void initState() {
@@ -23,7 +25,6 @@ class _HomePageState extends State<HomePage> {
           "Authorization": "Bearer " + userInfos.accessToken,
         }).then((response) {
       if (response.statusCode == 200) {
-        print(response.body);
         var values = json.decode(response.body);
         var data = values['data'];
         Provider.of<UserInfo>(context, listen: false).getAvatar(data['avatar']);
@@ -33,37 +34,28 @@ class _HomePageState extends State<HomePage> {
       "Authorization": "Bearer ${userInfos.accessToken}"
     }).then((response) {
       if (response.statusCode == 200) {
-        final values = json.decode(response.body);
-        final data = values['data'];
         setState(() {
-          for (var val in data) {
-            final images = val['images'];
-            if (images != null && images[0]['animated'] == false) {
-              print(images[0]);
-              _imagesURL.add(images[0]['link']);
-            }
-          }
+          _images = parseData(response.body).data;
+          print(_images.length);
         });
       }
     });
-  }
-
-  ListTile imagesBuilder(BuildContext context, int index) {
-    return ListTile(
-      title: Image.network(_imagesURL[index]),
-    );
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home Page'),
-        leading: CustomProfilAppBarButton(redirect: true,),
+        leading: CustomProfilAppBarButton(
+          redirect: true,
+        ),
       ),
       backgroundColor: Color(0xFF3C3C3C),
       body: ListView.builder(
-        itemCount: _imagesURL.length,
-        itemBuilder: imagesBuilder,
+        itemCount: _images.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(title: ImageWidget(data: _images[index]));
+        },
       ),
     );
   }
