@@ -4,9 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import 'UserInfo.dart';
-
-String accessToken;
-String refreshToken;
+import 'CustomProfilAppBarButton.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,12 +13,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<String> _imagesURL = List<String>();
-  String avatar;
 
   @override
   void initState() {
     super.initState();
     final userInfos = Provider.of<UserInfo>(context, listen: false);
+    http.get("https://api.imgur.com/3/account/" + userInfos.accountUsername,
+        headers: {
+          "Authorization": "Bearer " + userInfos.accessToken,
+        }).then((response) {
+      if (response.statusCode == 200) {
+        print(response.body);
+        var values = json.decode(response.body);
+        var data = values['data'];
+        Provider.of<UserInfo>(context, listen: false).getAvatar(data['avatar']);
+      }
+    });
     http.get("https://api.imgur.com/3/gallery/hot/viral/", headers: {
       "Authorization": "Bearer ${userInfos.accessToken}"
     }).then((response) {
@@ -38,21 +46,6 @@ class _HomePageState extends State<HomePage> {
         });
       }
     });
-    avatar = "";
-    http.get("https://api.imgur.com/3/account/" + userInfos.accountUsername,
-        headers: {
-          "Authorization": "Bearer " + userInfos.accessToken,
-        }).then((response) {
-      if (response.statusCode == 200) {
-        print(response.body);
-        var values = json.decode(response.body);
-        var data = values['data'];
-        setState(() {
-          avatar = data['avatar'];
-        });
-        Provider.of<UserInfo>(context, listen: false).getAvatar(data['avatar']);
-      }
-    });
   }
 
   ListTile imagesBuilder(BuildContext context, int index) {
@@ -62,18 +55,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget build(BuildContext context) {
-    //final userInfos = Provider.of<UserInfo>(context, listen: false);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Home Page'),
+        leading: CustomProfilAppBarButton(redirect: true,),
       ),
       backgroundColor: Color(0xFF3C3C3C),
       body: ListView.builder(
         itemCount: _imagesURL.length,
         itemBuilder: imagesBuilder,
       ),
-      //body: Image.network(userInfos.avatarUrl),
     );
   }
 }
