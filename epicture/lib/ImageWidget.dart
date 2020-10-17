@@ -11,6 +11,20 @@ class ImageWidget extends StatelessWidget {
     if (data.imagesInfos.length == 0 || data.imagesInfos[0].isAnimated) {
       return Container();
     }
-    return Image.network(data.imagesInfos[0].url);
+    return Card(
+        color: const Color(0xFF2D1F5D),
+        margin: EdgeInsets.all(10),
+        child: Column(children: <Widget>[
+          Image.network(data.imagesInfos[0].url, fit: BoxFit.contain),
+          SizedBox(
+              height: 65,
+              child: Center(
+                  child: Text(data.title,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 20),
+                      textAlign: TextAlign.center)))
+        ]));
   }
 }

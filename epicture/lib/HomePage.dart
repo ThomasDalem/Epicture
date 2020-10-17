@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: _images.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(title: ImageWidget(data: _images[index]));
+          return ImageWidget(data: _images[index]);
         },
       ),
     );
