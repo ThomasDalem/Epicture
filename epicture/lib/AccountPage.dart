@@ -1,12 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import 'HomePage.dart';
-import 'UserInfo.dart';
 import 'CustomProfilAppBarButton.dart';
-
+import 'JsonPostedImageParser.dart';
+import 'UserInfo.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -14,16 +12,23 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  List<String> _imagesURL = List<String>();
+  List<PostedImage> _images = List<PostedImage>();
 
   @override
   void initState() {
-  }
+    super.initState();
+    final userInfos = Provider.of<UserInfo>(context, listen: false);
 
-  ListTile imagesBuilder(BuildContext context, int index) {
-    return ListTile(
-      title: Image.network(_imagesURL[index]),
-    );
+    http.get("https://api.imgur.com/3/account/me/images", headers: {
+      "Authorization": "Bearer ${userInfos.accessToken}"
+    }).then((response) {
+      if (response.statusCode == 200) {
+        setState(() {
+          _images = parsePostedImageData(response.body).data;
+          print(_images.length);
+        });
+      }
+    });
   }
 
   Widget build(BuildContext context) {
@@ -35,9 +40,32 @@ class _AccountPageState extends State<AccountPage> {
       ),
       backgroundColor: Color(0xFF3C3C3C),
       body: ListView.builder(
-        itemCount: _imagesURL.length,
-        itemBuilder: imagesBuilder,
+        itemCount: _images.length,
+        itemBuilder: (BuildContext context, int index) {
+          return PostedImageWidget(data: _images[index]);
+        },
       ),
     );
+  }
+}
+
+class PostedImageWidget extends StatelessWidget {
+  final PostedImage data;
+
+  PostedImageWidget({this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    if (data == null || data.isAnimated) {
+      return Container();
+    }
+    return Card(
+        color: const Color(0xFF2D1F5D),
+        margin: EdgeInsets.all(10),
+        child: InkWell(
+            splashColor: Colors.white.withAlpha(30),
+            child: Column(children: <Widget>[
+              Image.network(data.url, fit: BoxFit.contain),
+            ])));
   }
 }

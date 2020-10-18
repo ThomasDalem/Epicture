@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'UserInfo.dart';
 import 'CustomProfilAppBarButton.dart';
 import 'JsonImageParser.dart';
-import 'ImageWidget.dart';
 import 'SearchBar.dart';
+import 'ImageWidget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -54,7 +54,6 @@ class _HomePageState extends State<HomePage> {
       "Authorization": "Bearer ${userInfos.accessToken}"
     }).then((response) {
       if (response.statusCode == 200) {
-        print(response.body);
         setState(() {
           _images = parseData(response.body).data;
           print(_images.length);
