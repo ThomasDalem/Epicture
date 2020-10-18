@@ -20,9 +20,7 @@ class CustomProfilAppBarButton extends StatelessWidget {
         padding: EdgeInsets.all(1),
         shape: CircleBorder(),
         onPressed: () {
-          if (redirect == true)
-            Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AccountPage()));
+          if (redirect == true) Navigator.push(context, MaterialPageRoute(builder: (context) => AccountPage()));
         },
       ),
       decoration: BoxDecoration(

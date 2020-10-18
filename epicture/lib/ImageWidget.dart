@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'JsonImageParser.dart';
 
+import 'ImageDetailsPage.dart';
+
 class ImageWidget extends StatelessWidget {
   final ImageData data;
 
@@ -14,17 +16,19 @@ class ImageWidget extends StatelessWidget {
     return Card(
         color: const Color(0xFF2D1F5D),
         margin: EdgeInsets.all(10),
-        child: Column(children: <Widget>[
-          Image.network(data.imagesInfos[0].url, fit: BoxFit.contain),
-          SizedBox(
-              height: 65,
-              child: Center(
-                  child: Text(data.title,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20),
-                      textAlign: TextAlign.center)))
-        ]));
+        child: InkWell(
+            splashColor: Colors.white.withAlpha(30),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ImageDetailsPage(imageData: data)));
+            },
+            child: Column(children: <Widget>[
+              Image.network(data.imagesInfos[0].url, fit: BoxFit.contain),
+              SizedBox(
+                  height: 65,
+                  child: Center(
+                      child: Text(data.title,
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),
+                          textAlign: TextAlign.center)))
+            ])));
   }
 }
