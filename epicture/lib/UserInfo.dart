@@ -7,6 +7,7 @@ class UserInfo with ChangeNotifier {
   String accountUsername;
   int accountID;
   String avatarUrl = "";
+  String querySearchImage = "";
 
   String _parseURLKey(String url, String key) {
     int startIndex = url.indexOf(key);
@@ -47,6 +48,10 @@ class UserInfo with ChangeNotifier {
     avatarUrl = url;
   }
 
+  void getQuerySearchImage(String query) {
+    querySearchImage = query;
+  }
+
   void logoutUser() {
     accessToken = null;
     expiresIn = null;
@@ -54,6 +59,7 @@ class UserInfo with ChangeNotifier {
     accountUsername = null;
     accountID = null;
     avatarUrl = null;
+    querySearchImage = null;
     notifyListeners();
   }
 }

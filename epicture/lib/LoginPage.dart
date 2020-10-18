@@ -29,7 +29,8 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Connection Page'),
+        title: Text('Connection'),
+        centerTitle: true,
       ),
       backgroundColor: Color(0xFF3C3C3C),
       body: Center(

@@ -31,6 +31,7 @@ class _AccountPageState extends State<AccountPage> {
       appBar: AppBar(
         title: Text('My Account'),
         leading: CustomProfilAppBarButton(redirect: false,),
+        centerTitle: true,
       ),
       backgroundColor: Color(0xFF3C3C3C),
       body: ListView.builder(

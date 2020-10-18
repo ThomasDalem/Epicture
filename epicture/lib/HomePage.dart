@@ -7,6 +7,7 @@ import 'UserInfo.dart';
 import 'CustomProfilAppBarButton.dart';
 import 'JsonImageParser.dart';
 import 'ImageWidget.dart';
+import 'SearchBar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,10 +17,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<ImageData> _images = List<ImageData>();
 
-  @override
-  void initState() {
-    super.initState();
+  void getAccountAvatar() {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
+
     http.get("https://api.imgur.com/3/account/" + userInfos.accountUsername,
         headers: {
           "Authorization": "Bearer " + userInfos.accessToken,
@@ -30,6 +30,11 @@ class _HomePageState extends State<HomePage> {
         Provider.of<UserInfo>(context, listen: false).getAvatar(data['avatar']);
       }
     });
+  }
+
+  void getGalleryImageWithoutSearchQuery() {
+    final userInfos = Provider.of<UserInfo>(context, listen: false);
+
     http.get("https://api.imgur.com/3/gallery/hot/viral/", headers: {
       "Authorization": "Bearer ${userInfos.accessToken}"
     }).then((response) {
@@ -42,6 +47,35 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void getGalleryImageWithSearchQuery() {
+    final userInfos = Provider.of<UserInfo>(context, listen: false);
+
+    http.get("https://api.imgur.com/3/gallery/search/?q=" + userInfos.querySearchImage, headers: {
+      "Authorization": "Bearer ${userInfos.accessToken}"
+    }).then((response) {
+      if (response.statusCode == 200) {
+        print(response.body);
+        setState(() {
+          _images = parseData(response.body).data;
+          print(_images.length);
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final userInfos = Provider.of<UserInfo>(context, listen: false);
+
+    if (userInfos.avatarUrl == "")
+      getAccountAvatar();
+    if (userInfos.querySearchImage == "")
+      getGalleryImageWithoutSearchQuery();
+    else
+      getGalleryImageWithSearchQuery();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -49,6 +83,15 @@ class _HomePageState extends State<HomePage> {
         leading: CustomProfilAppBarButton(
           redirect: true,
         ),
+        actions:<Widget>[
+          IconButton(
+            onPressed: () {
+              showSearch(context: context, delegate: SearchBar());
+            },
+            icon: Icon(Icons.search),
+          ),
+        ],
+        centerTitle: true,
       ),
       backgroundColor: Color(0xFF3C3C3C),
       body: ListView.builder(
