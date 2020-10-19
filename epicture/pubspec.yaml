@@ -24,6 +24,7 @@ dependencies:
   flutter_webview_plugin: ^0.3.11
   provider: ^4.3.2+2
   http: ^0.12.2
+  image_picker: ^0.6.7+12
   flutter:
     sdk: flutter
 

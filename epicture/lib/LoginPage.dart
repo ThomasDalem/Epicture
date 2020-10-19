@@ -32,7 +32,7 @@ class _StartPageState extends State<StartPage> {
         title: Text('Connection'),
         centerTitle: true,
       ),
-      backgroundColor: Color(0xFF3C3C3C),
+      backgroundColor: Theme.of(context).primaryColorDark,
       body: Center(
         child: RaisedButton(
           onPressed: () {

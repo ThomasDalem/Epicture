@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
         ],
         centerTitle: true,
       ),
-      backgroundColor: Color(0xFF3C3C3C),
+      backgroundColor: Theme.of(context).primaryColorDark,
       body: ListView.builder(
         itemCount: _images.length,
         itemBuilder: (BuildContext context, int index) {

@@ -23,9 +23,7 @@ class _FavoritePageState extends State<FavoritePage> {
     http.get("https://api.imgur.com/3/account/" + userInfos.accountUsername + "/favorites/", headers: {
       "Authorization": "Bearer ${userInfos.accessToken}"
     }).then((response) {
-      print(userInfos.accessToken);
       if (response.statusCode == 200) {
-        print(response.body);
         setState(() {
           _images = parsePostedAndFavoriteImageData(response.body).data;
         });
@@ -36,11 +34,10 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Account'),
-        leading: CustomProfilAppBarButton(redirect: false,),
-        centerTitle: true,
+        title: Text('Favorites'),
+          actions: [CustomProfilAppBarButton(redirect: false)],
       ),
-      backgroundColor: Color(0xFF3C3C3C),
+      backgroundColor: Theme.of(context).primaryColorDark,
       body: ListView.builder(
         itemCount: _images.length,
         itemBuilder: (BuildContext context, int index) {

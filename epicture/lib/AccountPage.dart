@@ -7,6 +7,7 @@ import 'JsonPostedAndFavoriteImageParser.dart';
 import 'UserInfo.dart';
 import 'FavoritePage.dart';
 import 'PostedAndFavoriteImageWidget.dart';
+import 'UploadPostPage.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -32,15 +33,14 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   Widget build(BuildContext context) {
+    final userInfos = Provider.of<UserInfo>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Account'),
-        leading: CustomProfilAppBarButton(
-          redirect: false,
-        ),
-        centerTitle: true,
+        title: Text(userInfos.accountUsername),
+          actions: [CustomProfilAppBarButton(redirect: false)],
       ),
-      backgroundColor: Color(0xFF3C3C3C),
+      backgroundColor: Theme.of(context).primaryColorDark,
       body: ListView.builder(
         itemCount: _images.length,
         itemBuilder: (BuildContext context, int index) {
@@ -48,21 +48,27 @@ class _AccountPageState extends State<AccountPage> {
         },
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Color(0xFF5a1ea0),
+        color: Theme.of(context).primaryColor,
         child: Row(
           children: <Widget>[
             Expanded(
-                child: IconButton(
-              icon: Icon(Icons.file_upload),
-              onPressed: () {},
-            )),
+              child: IconButton(
+                color: Color(0xFFFFFFFF),
+                icon: Icon(Icons.upload_file),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => UploadPostPage()));
+                },
+              )
+            ),
             Expanded(
-                child: IconButton(
-              icon: Icon(Icons.favorite),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritePage()));
-              },
-            )),
+              child: IconButton(
+                color: Color(0xFFFFFFFF),
+                icon: Icon(Icons.favorite),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritePage()));
+                },
+              )
+            ),
           ],
         ),
       ),
