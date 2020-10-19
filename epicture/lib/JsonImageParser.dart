@@ -23,7 +23,7 @@ class ImageData {
 
   factory ImageData.fromJson(Map<String, dynamic> json) {
     final list = json['images'] as List;
-    List<MyImage> myImages = [];
+    List<MyImage> myImages;
 
     if (list != null && list.length > 0) {
       myImages = list.map((e) => MyImage.fromJson(e)).toList();
@@ -34,6 +34,22 @@ class ImageData {
         downVotes: json['downs'] as int,
         upVotes: json['ups'] as int,
         imagesInfos: myImages);
+  }
+}
+
+class ImageList {
+  List<MyImage> images;
+
+  ImageList({this.images});
+
+  factory ImageList.fromJson(Map<String, dynamic> json) {
+    final list = json['data'] as List;
+    List<MyImage> myImages;
+
+    if (list != null && list.length > 0) {
+      myImages = list.map((e) => MyImage.fromJson(e)).toList();
+    }
+    return ImageList(images: myImages);
   }
 }
 

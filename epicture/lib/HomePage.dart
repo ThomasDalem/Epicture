@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<ImageData> _images = List<ImageData>();
+  List<ImageData> _images = [];
 
   void getAccountAvatar() {
     final userInfos = Provider.of<UserInfo>(context, listen: false);

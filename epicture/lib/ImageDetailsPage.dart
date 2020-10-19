@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -16,20 +18,51 @@ class ImageDetailsPage extends StatefulWidget {
 }
 
 class _ImageDetailsPageState extends State<ImageDetailsPage> {
+  ImageList _favoriteImages;
+
   void favoriteImage(MyImage imageData) {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
 
     http.post('https://api.imgur.com/3/image/${imageData.id}/favorite',
-        headers: {"Authorization": "Bearer " + userInfos.accessToken}).then((response) {
+        headers: {'Authorization': 'Bearer ${userInfos.accessToken}'}).then((response) {
       if (response.statusCode == 200) {
-        this.setState(() {
-          imageData.isFavorite = !imageData.isFavorite;
-        });
+        final result = jsonDecode(response.body);
+
+        if (result['data'] == 'favorited') {
+          this.setState(() {
+            imageData.isFavorite = true;
+          });
+        } else {
+          this.setState(() {
+            imageData.isFavorite = false;
+          });
+        }
       }
     });
   }
 
   @override
+  void initState() {
+    super.initState();
+    final userInfos = Provider.of<UserInfo>(context, listen: false);
+    List<String> favoritesID;
+
+    http.get('https://api.imgur.com/3/account/${userInfos.accountUsername}/favorites/',
+        headers: {'Authorization': 'Bearer ${userInfos.accessToken}'}).then((response) {
+      if (response.statusCode == 200) {
+        this.setState(() {
+          _favoriteImages = new ImageList.fromJson(jsonDecode(response.body));
+          favoritesID = _favoriteImages.images.map((elem) => elem.id).toList();
+          for (var image in widget.imageData.imagesInfos) {
+            if (favoritesID.contains(image.id)) {
+              image.isFavorite = true;
+            }
+          }
+        });
+      }
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorDark,
@@ -71,19 +104,18 @@ class _ImageDetailsPageState extends State<ImageDetailsPage> {
           Expanded(
               child: PageView.builder(
                   itemCount: widget.imageData.imagesInfos.length,
-                  itemBuilder: (context, index) => Stack(alignment: Alignment.center, children: [
-                        Image.network(widget.imageData.imagesInfos[index].url, fit: BoxFit.contain),
-                        Container(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            icon: widget.imageData.imagesInfos[index].isFavorite == true
-                                ? Icon(Icons.favorite)
-                                : Icon(Icons.favorite_border),
-                            color: Colors.red,
-                            onPressed: () => favoriteImage(widget.imageData.imagesInfos[index]),
-                          ),
-                        )
-                      ])))
+                  itemBuilder: (context, index) => SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(children: [
+                        IconButton(
+                          icon: widget.imageData.imagesInfos[index].isFavorite == true
+                              ? Icon(Icons.favorite)
+                              : Icon(Icons.favorite_border),
+                          color: Colors.red,
+                          onPressed: () => favoriteImage(widget.imageData.imagesInfos[index]),
+                        ),
+                        Image.network(widget.imageData.imagesInfos[index].url, fit: BoxFit.contain)
+                      ]))))
         ]));
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import 'JsonImageParser.dart';
+
 class UserInfo with ChangeNotifier {
   String accessToken;
   int expiresIn;
@@ -8,6 +10,7 @@ class UserInfo with ChangeNotifier {
   int accountID;
   String avatarUrl = "";
   String querySearchImage = "";
+  ImageList favoriteImages;
 
   String _parseURLKey(String url, String key) {
     int startIndex = url.indexOf(key);
@@ -23,16 +26,6 @@ class UserInfo with ChangeNotifier {
       endIndex++;
     }
     return (url.substring(startIndex, endIndex));
-  }
-
-  Object getInfos() {
-    return {
-      accessToken: accessToken,
-      expiresIn: expiresIn,
-      refreshToken: refreshToken,
-      accountUsername: accountUsername,
-      accountID: accountID
-    };
   }
 
   void logUser(String url) {
@@ -60,6 +53,7 @@ class UserInfo with ChangeNotifier {
     accountID = null;
     avatarUrl = null;
     querySearchImage = null;
+    favoriteImages = null;
     notifyListeners();
   }
 }

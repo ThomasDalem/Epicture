@@ -10,7 +10,7 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (data.imagesInfos.length == 0 || data.imagesInfos[0].isAnimated) {
+    if (data.imagesInfos == null || data.imagesInfos.length == 0 || data.imagesInfos[0].isAnimated) {
       return Container();
     }
     return Card(
