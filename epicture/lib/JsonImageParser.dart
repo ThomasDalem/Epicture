@@ -40,11 +40,17 @@ class ImageData {
 class MyImage {
   final String url;
   final bool isAnimated;
+  bool isFavorite;
+  final String id;
 
-  MyImage({this.url, this.isAnimated});
+  MyImage({this.url, this.isAnimated, this.isFavorite, this.id});
 
   factory MyImage.fromJson(Map<String, dynamic> json) {
-    return MyImage(url: json['link'] as String, isAnimated: json['animated'] as bool);
+    return MyImage(
+        url: json['link'] as String,
+        isAnimated: json['animated'] as bool,
+        isFavorite: json['favorite'] as bool,
+        id: json['id'] as String);
   }
 }
 

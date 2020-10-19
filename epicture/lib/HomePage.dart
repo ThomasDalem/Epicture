@@ -20,10 +20,9 @@ class _HomePageState extends State<HomePage> {
   void getAccountAvatar() {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
 
-    http.get("https://api.imgur.com/3/account/" + userInfos.accountUsername,
-        headers: {
-          "Authorization": "Bearer " + userInfos.accessToken,
-        }).then((response) {
+    http.get("https://api.imgur.com/3/account/" + userInfos.accountUsername, headers: {
+      "Authorization": "Bearer " + userInfos.accessToken,
+    }).then((response) {
       if (response.statusCode == 200) {
         var values = json.decode(response.body);
         var data = values['data'];
@@ -35,9 +34,8 @@ class _HomePageState extends State<HomePage> {
   void getGalleryImageWithoutSearchQuery() {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
 
-    http.get("https://api.imgur.com/3/gallery/hot/viral/", headers: {
-      "Authorization": "Bearer ${userInfos.accessToken}"
-    }).then((response) {
+    http.get("https://api.imgur.com/3/gallery/hot/viral/",
+        headers: {"Authorization": "Bearer ${userInfos.accessToken}"}).then((response) {
       if (response.statusCode == 200) {
         setState(() {
           _images = parseData(response.body).data;
@@ -50,9 +48,8 @@ class _HomePageState extends State<HomePage> {
   void getGalleryImageWithSearchQuery() {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
 
-    http.get("https://api.imgur.com/3/gallery/search/?q=" + userInfos.querySearchImage, headers: {
-      "Authorization": "Bearer ${userInfos.accessToken}"
-    }).then((response) {
+    http.get("https://api.imgur.com/3/gallery/search/?q=" + userInfos.querySearchImage,
+        headers: {"Authorization": "Bearer ${userInfos.accessToken}"}).then((response) {
       if (response.statusCode == 200) {
         setState(() {
           _images = parseData(response.body).data;
@@ -67,8 +64,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     final userInfos = Provider.of<UserInfo>(context, listen: false);
 
-    if (userInfos.avatarUrl == "")
-      getAccountAvatar();
+    if (userInfos.avatarUrl == "") getAccountAvatar();
     if (userInfos.querySearchImage == "")
       getGalleryImageWithoutSearchQuery();
     else
@@ -82,7 +78,7 @@ class _HomePageState extends State<HomePage> {
         leading: CustomProfilAppBarButton(
           redirect: true,
         ),
-        actions:<Widget>[
+        actions: <Widget>[
           IconButton(
             onPressed: () {
               showSearch(context: context, delegate: SearchBar());
