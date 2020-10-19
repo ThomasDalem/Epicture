@@ -3,8 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import 'CustomProfilAppBarButton.dart';
-import 'JsonPostedImageParser.dart';
+import 'JsonPostedAndFavoriteImageParser.dart';
 import 'UserInfo.dart';
+import 'FavoritePage.dart';
+import 'PostedAndFavoriteImageWidget.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -12,7 +14,7 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  List<PostedImage> _images = List<PostedImage>();
+  List<PostedAndFavoriteImage> _images = List<PostedAndFavoriteImage>();
 
   @override
   void initState() {
@@ -24,8 +26,7 @@ class _AccountPageState extends State<AccountPage> {
     }).then((response) {
       if (response.statusCode == 200) {
         setState(() {
-          _images = parsePostedImageData(response.body).data;
-          print(_images.length);
+          _images = parsePostedAndFavoriteImageData(response.body).data;
         });
       }
     });
@@ -40,32 +41,32 @@ class _AccountPageState extends State<AccountPage> {
       ),
       backgroundColor: Color(0xFF3C3C3C),
       body: ListView.builder(
-        itemCount: _images.length,
-        itemBuilder: (BuildContext context, int index) {
-          return PostedImageWidget(data: _images[index]);
-        },
+            itemCount: _images.length,
+            itemBuilder: (BuildContext context, int index) {
+              return PostedAndFavoriteImageWidget(data: _images[index]);
+            },
+          ),
+      bottomNavigationBar: BottomAppBar(
+        color: Color(0xFF5a1ea0),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: IconButton(
+                icon: Icon(Icons.upload_file),
+                onPressed: () {},
+              )
+            ),
+            Expanded(
+              child: IconButton(
+                icon: Icon(Icons.favorite),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritePage()));
+                },
+              )
+            ),
+          ],
+        ),
       ),
     );
-  }
-}
-
-class PostedImageWidget extends StatelessWidget {
-  final PostedImage data;
-
-  PostedImageWidget({this.data});
-
-  @override
-  Widget build(BuildContext context) {
-    if (data == null || data.isAnimated) {
-      return Container();
-    }
-    return Card(
-        color: const Color(0xFF2D1F5D),
-        margin: EdgeInsets.all(10),
-        child: InkWell(
-            splashColor: Colors.white.withAlpha(30),
-            child: Column(children: <Widget>[
-              Image.network(data.url, fit: BoxFit.contain),
-            ])));
   }
 }

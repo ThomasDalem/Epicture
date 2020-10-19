@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
       if (response.statusCode == 200) {
         setState(() {
           _images = parseData(response.body).data;
-          print(_images.length);
         });
       }
     });
