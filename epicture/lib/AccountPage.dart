@@ -21,9 +21,8 @@ class _AccountPageState extends State<AccountPage> {
     super.initState();
     final userInfos = Provider.of<UserInfo>(context, listen: false);
 
-    http.get("https://api.imgur.com/3/account/me/images", headers: {
-      "Authorization": "Bearer ${userInfos.accessToken}"
-    }).then((response) {
+    http.get("https://api.imgur.com/3/account/me/images",
+        headers: {"Authorization": "Bearer ${userInfos.accessToken}"}).then((response) {
       if (response.statusCode == 200) {
         setState(() {
           _images = parsePostedAndFavoriteImageData(response.body).data;
@@ -36,34 +35,34 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Account'),
-        leading: CustomProfilAppBarButton(redirect: false,),
+        leading: CustomProfilAppBarButton(
+          redirect: false,
+        ),
         centerTitle: true,
       ),
       backgroundColor: Color(0xFF3C3C3C),
       body: ListView.builder(
-            itemCount: _images.length,
-            itemBuilder: (BuildContext context, int index) {
-              return PostedAndFavoriteImageWidget(data: _images[index]);
-            },
-          ),
+        itemCount: _images.length,
+        itemBuilder: (BuildContext context, int index) {
+          return PostedAndFavoriteImageWidget(data: _images[index]);
+        },
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Color(0xFF5a1ea0),
         child: Row(
           children: <Widget>[
             Expanded(
-              child: IconButton(
-                icon: Icon(Icons.upload_file),
-                onPressed: () {},
-              )
-            ),
+                child: IconButton(
+              icon: Icon(Icons.file_upload),
+              onPressed: () {},
+            )),
             Expanded(
-              child: IconButton(
-                icon: Icon(Icons.favorite),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritePage()));
-                },
-              )
-            ),
+                child: IconButton(
+              icon: Icon(Icons.favorite),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritePage()));
+              },
+            )),
           ],
         ),
       ),
