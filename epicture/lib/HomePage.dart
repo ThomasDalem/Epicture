@@ -73,6 +73,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[Theme.of(context).primaryColorLight, Color(0xFF3D156B)]))),
         title: Text('Home Page'),
         leading: CustomProfilAppBarButton(
           redirect: true,
@@ -85,7 +91,6 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.search),
           ),
         ],
-        centerTitle: true,
       ),
       backgroundColor: Theme.of(context).primaryColorDark,
       body: ListView.builder(

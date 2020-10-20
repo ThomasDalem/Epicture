@@ -18,8 +18,11 @@ class ImageData {
   final List<MyImage> imagesInfos;
   final int upVotes;
   final int downVotes;
+  final int imagesNbr;
+  final String id;
 
-  ImageData({this.accountUsername, this.title, this.imagesInfos, this.upVotes, this.downVotes});
+  ImageData(
+      {this.accountUsername, this.title, this.imagesInfos, this.upVotes, this.downVotes, this.imagesNbr, this.id});
 
   factory ImageData.fromJson(Map<String, dynamic> json) {
     final list = json['images'] as List;
@@ -33,6 +36,8 @@ class ImageData {
         title: json['title'] as String,
         downVotes: json['downs'] as int,
         upVotes: json['ups'] as int,
+        imagesNbr: json['images_count'] as int,
+        id: json['id'] as String,
         imagesInfos: myImages);
   }
 }

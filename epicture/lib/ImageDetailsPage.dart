@@ -19,6 +19,7 @@ class ImageDetailsPage extends StatefulWidget {
 
 class _ImageDetailsPageState extends State<ImageDetailsPage> {
   ImageList _favoriteImages;
+  ImageList _images = new ImageList();
 
   void favoriteImage(MyImage imageData) {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
@@ -47,6 +48,18 @@ class _ImageDetailsPageState extends State<ImageDetailsPage> {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
     List<String> favoritesID;
 
+    if (widget.imageData.imagesNbr != widget.imageData.imagesInfos.length) {
+      http.get('https://api.imgur.com/3/gallery/album/${widget.imageData.id}',
+          headers: {'Authorization': 'Bearer ${userInfos.accessToken}'}).then((response) {
+        if (response.statusCode == 200) {
+          this.setState(() {
+            _images.images = ImageData.fromJson(jsonDecode(response.body)['data']).imagesInfos;
+          });
+        }
+      });
+    } else {
+      _images.images = widget.imageData.imagesInfos;
+    }
     http.get('https://api.imgur.com/3/account/${userInfos.accountUsername}/favorites/',
         headers: {'Authorization': 'Bearer ${userInfos.accessToken}'}).then((response) {
       if (response.statusCode == 200) {
@@ -67,13 +80,10 @@ class _ImageDetailsPageState extends State<ImageDetailsPage> {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorDark,
         appBar: AppBar(
-          title: Text(widget.imageData.title),
-          actions: [
-            CustomProfilAppBarButton(
+            title: Text(widget.imageData.title),
+            leading: CustomProfilAppBarButton(
               redirect: true,
-            )
-          ],
-        ),
+            )),
         body: Column(children: [
           Text(widget.imageData.accountUsername, style: TextStyle(color: Colors.white)),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -88,7 +98,7 @@ class _ImageDetailsPageState extends State<ImageDetailsPage> {
                 ))
               ]),
             ),
-            Text("${widget.imageData.imagesInfos.length} photos"),
+            Text("${widget.imageData.imagesNbr} photos"),
             RichText(
               text: TextSpan(children: [
                 TextSpan(text: widget.imageData.downVotes.toString(), style: TextStyle(color: Colors.red)),
@@ -103,18 +113,18 @@ class _ImageDetailsPageState extends State<ImageDetailsPage> {
           ]),
           Expanded(
               child: PageView.builder(
-                  itemCount: widget.imageData.imagesInfos.length,
+                  itemCount: _images.images.length,
                   itemBuilder: (context, index) => SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Column(children: [
                         IconButton(
-                          icon: widget.imageData.imagesInfos[index].isFavorite == true
+                          icon: _images.images[index].isFavorite == true
                               ? Icon(Icons.favorite)
                               : Icon(Icons.favorite_border),
                           color: Colors.red,
-                          onPressed: () => favoriteImage(widget.imageData.imagesInfos[index]),
+                          onPressed: () => favoriteImage(_images.images[index]),
                         ),
-                        Image.network(widget.imageData.imagesInfos[index].url, fit: BoxFit.contain)
+                        Image.network(_images.images[index].url, fit: BoxFit.contain)
                       ]))))
         ]));
   }

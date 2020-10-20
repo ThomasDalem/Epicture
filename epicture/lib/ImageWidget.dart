@@ -67,8 +67,7 @@ class ImageWidget extends StatelessWidget {
                         ),
                         RichText(
                           text: TextSpan(children: [
-                            TextSpan(
-                                text: data.imagesInfos.length.toString(), style: TextStyle(color: Colors.grey[600])),
+                            TextSpan(text: data.imagesNbr.toString(), style: TextStyle(color: Colors.grey[600])),
                             WidgetSpan(
                                 child: Icon(
                               Icons.burst_mode,
