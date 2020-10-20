@@ -15,20 +15,59 @@ class ImageWidget extends StatelessWidget {
     }
     return Card(
         color: const Color(0xFF2D1F5D),
-        margin: EdgeInsets.all(10),
         child: InkWell(
-            splashColor: Colors.white.withAlpha(30),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ImageDetailsPage(imageData: data)));
             },
             child: Column(children: <Widget>[
-              Image.network(data.imagesInfos[0].url, fit: BoxFit.contain),
-              SizedBox(
-                  height: 65,
-                  child: Center(
-                      child: Text(data.title,
-                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),
-                          textAlign: TextAlign.center)))
+              Stack(alignment: Alignment.bottomCenter, children: [
+                Image.network(
+                  data.imagesInfos[0].url,
+                  fit: BoxFit.contain,
+                  colorBlendMode: BlendMode.dstIn,
+                ),
+                Positioned.fill(
+                    child: Container(
+                  alignment: Alignment.bottomCenter,
+                  height: 300,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Colors.black])),
+                )),
+                Positioned(
+                    left: 10,
+                    bottom: 20,
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(data.title, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                      Row(children: [
+                        RichText(
+                            text: TextSpan(
+                          children: [
+                            TextSpan(text: data.upVotes.toString(), style: TextStyle(color: Colors.green)),
+                            WidgetSpan(
+                                child: const Icon(
+                              Icons.keyboard_arrow_up,
+                              size: 14,
+                              color: Colors.green,
+                            ))
+                          ],
+                        )),
+                        RichText(
+                          text: TextSpan(children: [
+                            TextSpan(text: data.downVotes.toString(), style: TextStyle(color: Colors.red)),
+                            WidgetSpan(
+                                child: const Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 14,
+                              color: Colors.red,
+                            ))
+                          ]),
+                        )
+                      ])
+                    ]))
+              ])
             ])));
   }
 }

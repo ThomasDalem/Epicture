@@ -38,7 +38,7 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(userInfos.accountUsername),
-          actions: [CustomProfilAppBarButton(redirect: false)],
+        actions: [CustomProfilAppBarButton(redirect: false)],
       ),
       backgroundColor: Theme.of(context).primaryColorDark,
       body: ListView.builder(
@@ -52,23 +52,21 @@ class _AccountPageState extends State<AccountPage> {
         child: Row(
           children: <Widget>[
             Expanded(
-              child: IconButton(
-                color: Color(0xFFFFFFFF),
-                icon: Icon(Icons.upload_file),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => UploadPostPage()));
-                },
-              )
-            ),
+                child: IconButton(
+              color: Color(0xFFFFFFFF),
+              icon: Icon(Icons.file_upload),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UploadPostPage()));
+              },
+            )),
             Expanded(
-              child: IconButton(
-                color: Color(0xFFFFFFFF),
-                icon: Icon(Icons.favorite),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritePage()));
-                },
-              )
-            ),
+                child: IconButton(
+              color: Color(0xFFFFFFFF),
+              icon: Icon(Icons.favorite),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritePage()));
+              },
+            )),
           ],
         ),
       ),
