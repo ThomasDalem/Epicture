@@ -58,7 +58,6 @@ class _UploadPostPageState extends State<UploadPostPage> {
           "disable_audio": "1",
         }
       ).then((response) {
-        print(response.body);
         if (response.statusCode == 200) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
         }
@@ -92,6 +91,7 @@ class _UploadPostPageState extends State<UploadPostPage> {
                 controller: _titleController,
                 style: TextStyle(color: Theme.of(context).primaryColorLight),
                 decoration: InputDecoration(
+                  labelText: 'Tilte',
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       width: 2,
@@ -116,6 +116,7 @@ class _UploadPostPageState extends State<UploadPostPage> {
                 maxLines: null,
                 style: TextStyle(color: Theme.of(context).primaryColorLight),
                 decoration: InputDecoration(
+                  labelText: 'Description',
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       width: 2,
@@ -123,7 +124,6 @@ class _UploadPostPageState extends State<UploadPostPage> {
                     )
                   ),
                   labelStyle: TextStyle(color: Theme.of(context).primaryColorLight,),
-                  contentPadding: EdgeInsets.symmetric(vertical: 50),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -161,9 +161,16 @@ class _UploadPostPageState extends State<UploadPostPage> {
                 ),
               ],
             ),
-            MaterialButton(
-              onPressed: tryToUploadNewPost,
-              child: Text('Upload')
+            Container(
+              margin: EdgeInsets.fromLTRB(100, 8, 100, 4),
+              child: MaterialButton(
+                minWidth: 50,
+                height: 34,
+                elevation: 3,
+                onPressed: tryToUploadNewPost,
+                color: Theme.of(context).primaryColorLight,
+                child: Text('Post', style: TextStyle(color: Color(0xFFFFFFFF)))
+              )
             )
           ],
         ),
