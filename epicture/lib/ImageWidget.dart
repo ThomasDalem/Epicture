@@ -64,6 +64,18 @@ class ImageWidget extends StatelessWidget {
                               color: Colors.red,
                             ))
                           ]),
+                        ),
+                        RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: data.imagesInfos.length.toString(), style: TextStyle(color: Colors.grey[600])),
+                            WidgetSpan(
+                                child: Icon(
+                              Icons.burst_mode,
+                              size: 14,
+                              color: Colors.grey[600],
+                            ))
+                          ]),
                         )
                       ])
                     ]))
