@@ -45,6 +45,7 @@ class _ImageDetailsPageState extends State<ImageDetailsPage> {
   @override
   void initState() {
     super.initState();
+    _images.images = [];
     final userInfos = Provider.of<UserInfo>(context, listen: false);
     List<String> favoritesID;
 
