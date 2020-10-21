@@ -37,6 +37,12 @@ class _AccountPageState extends State<AccountPage> {
 
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[Theme.of(context).primaryColorLight, Color(0xFF3D156B)]))),
         title: Text(userInfos.accountUsername),
         actions: [CustomProfilAppBarButton(redirect: false)],
       ),

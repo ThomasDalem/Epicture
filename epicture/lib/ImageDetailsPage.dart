@@ -81,6 +81,12 @@ class _ImageDetailsPageState extends State<ImageDetailsPage> {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorDark,
         appBar: AppBar(
+        flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[Theme.of(context).primaryColorLight, Color(0xFF3D156B)]))),
             title: Text(widget.imageData.title),
             leading: CustomProfilAppBarButton(
               redirect: true,
