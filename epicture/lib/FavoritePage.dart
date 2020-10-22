@@ -34,6 +34,12 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[Theme.of(context).primaryColorLight, Color(0xFF3D156B)]))),
         title: Text('Favorites'),
           actions: [CustomProfilAppBarButton(redirect: false)],
       ),
