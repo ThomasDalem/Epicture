@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'JsonPostedAndFavoriteImageParser.dart';
+import '../parsers/JsonPostedAndFavoriteImageParser.dart';
 
 class PostedAndFavoriteImageWidget extends StatelessWidget {
   final PostedAndFavoriteImage data;

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import 'CustomProfilAppBarButton.dart';
-import 'UserInfo.dart';
-import 'JsonPostedAndFavoriteImageParser.dart';
-import 'PostedAndFavoriteImageWidget.dart';
+import '../widgets/CustomProfilAppBarButton.dart';
+import '../providers/UserInfo.dart';
+import '../parsers/JsonPostedAndFavoriteImageParser.dart';
+import '../widgets/PostedAndFavoriteImageWidget.dart';
 
 class FavoritePage extends StatefulWidget {
   @override

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:provider/provider.dart';
 
-import 'UserInfo.dart';
+import '../providers/UserInfo.dart';
 import 'HomePage.dart';
 
 class StartPage extends StatefulWidget {

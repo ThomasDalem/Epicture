@@ -1,9 +1,9 @@
-import 'package:epicture/LoginPage.dart';
+import 'package:epicture/pages/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'UserInfo.dart';
-import 'LoginPage.dart';
+import './providers/UserInfo.dart';
+import './pages/LoginPage.dart';
 
 void main() => runApp(ChangeNotifierProvider<UserInfo>(
     create: (context) => UserInfo(), child: MyApp()));

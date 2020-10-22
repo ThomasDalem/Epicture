@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import 'CustomProfilAppBarButton.dart';
-import 'JsonImageParser.dart';
-import 'UserInfo.dart';
-import 'VideoPlayerWidget.dart';
+import '../widgets/CustomProfilAppBarButton.dart';
+import '../parsers/JsonImageParser.dart';
+import '../providers/UserInfo.dart';
+import '../widgets/VideoPlayerWidget.dart';
 
 Widget chooseMediaPlayer(MyImage data) {
   if (data.type == 'video/mp4') {

@@ -5,8 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import 'CustomProfilAppBarButton.dart';
-import 'UserInfo.dart';
+import '../widgets/CustomProfilAppBarButton.dart';
+import '../providers/UserInfo.dart';
 import 'HomePage.dart';
 
 class UploadPostPage extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'JsonImageParser.dart';
+import '../parsers/JsonImageParser.dart';
 
 class UserInfo with ChangeNotifier {
   String accessToken;

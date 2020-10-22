@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'UserInfo.dart';
-import 'AccountPage.dart';
+import '../providers/UserInfo.dart';
+import '../pages/AccountPage.dart';
 
 class CustomProfilAppBarButton extends StatelessWidget {
   bool redirect;

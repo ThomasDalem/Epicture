@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import 'UserInfo.dart';
-import 'CustomProfilAppBarButton.dart';
-import 'JsonImageParser.dart';
-import 'SearchBar.dart';
-import 'ImageWidget.dart';
-import 'SingleImageWidget.dart';
+import '../providers/UserInfo.dart';
+import '../widgets/CustomProfilAppBarButton.dart';
+import '../parsers/JsonImageParser.dart';
+import '../widgets/SearchBar.dart';
+import '../widgets/ImageWidget.dart';
+import '../widgets/SingleImageWidget.dart';
 
 class HomePage extends StatefulWidget {
   @override

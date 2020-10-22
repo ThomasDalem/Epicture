@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import 'CustomProfilAppBarButton.dart';
-import 'JsonPostedAndFavoriteImageParser.dart';
-import 'UserInfo.dart';
+import '../widgets/CustomProfilAppBarButton.dart';
+import '../parsers/JsonPostedAndFavoriteImageParser.dart';
+import '../providers/UserInfo.dart';
 import 'FavoritePage.dart';
-import 'PostedAndFavoriteImageWidget.dart';
+import '../widgets/PostedAndFavoriteImageWidget.dart';
 import 'UploadPostPage.dart';
 
 class AccountPage extends StatefulWidget {

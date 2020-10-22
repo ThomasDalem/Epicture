@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'JsonImageParser.dart';
 
-import 'ImageDetailsPage.dart';
+import '../parsers/JsonImageParser.dart';
+import '../pages/ImageDetailsPage.dart';
 import 'VideoPlayerWidget.dart';
 
 Widget chooseMediaPlayer(ImageData data) {
