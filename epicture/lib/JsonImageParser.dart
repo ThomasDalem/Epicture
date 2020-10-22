@@ -7,7 +7,8 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) {
     final list = json['data'] as List;
-    List<ImageData> imagesList = list.map((e) => ImageData.fromJson(e)).toList();
+    List<ImageData> imagesList =
+        list.map((e) => ImageData.fromJson(e)).toList();
     return Data(data: imagesList);
   }
 }
@@ -20,9 +21,24 @@ class ImageData {
   final int downVotes;
   final int imagesNbr;
   final String id;
+  final String link;
+  final bool isAlbum;
+  final String type;
+  final String mp4;
 
-  ImageData(
-      {this.accountUsername, this.title, this.imagesInfos, this.upVotes, this.downVotes, this.imagesNbr, this.id});
+  ImageData({
+    this.accountUsername,
+    this.title,
+    this.imagesInfos,
+    this.upVotes,
+    this.downVotes,
+    this.imagesNbr,
+    this.id,
+    this.link,
+    this.isAlbum,
+    this.type,
+    this.mp4,
+  });
 
   factory ImageData.fromJson(Map<String, dynamic> json) {
     final list = json['images'] as List;
@@ -32,13 +48,17 @@ class ImageData {
       myImages = list.map((e) => MyImage.fromJson(e)).toList();
     }
     return ImageData(
-        accountUsername: json['account_url'] as String,
-        title: json['title'] as String,
-        downVotes: json['downs'] as int,
-        upVotes: json['ups'] as int,
-        imagesNbr: json['images_count'] as int,
-        id: json['id'] as String,
-        imagesInfos: myImages);
+      accountUsername: json['account_url'] as String,
+      title: json['title'] as String,
+      downVotes: json['downs'] as int,
+      upVotes: json['ups'] as int,
+      imagesNbr: json['images_count'] as int,
+      id: json['id'] as String,
+      link: json['link'] as String,
+      type: json['type'] as String,
+      mp4: json['mp4'] as String,
+      imagesInfos: myImages,
+    );
   }
 }
 
@@ -63,15 +83,27 @@ class MyImage {
   final bool isAnimated;
   bool isFavorite;
   final String id;
+  final String type;
+  final String mp4;
 
-  MyImage({this.url, this.isAnimated, this.isFavorite, this.id});
+  MyImage({
+    this.url,
+    this.isAnimated,
+    this.isFavorite,
+    this.id,
+    this.type,
+    this.mp4,
+  });
 
   factory MyImage.fromJson(Map<String, dynamic> json) {
     return MyImage(
-        url: json['link'] as String,
-        isAnimated: json['animated'] as bool,
-        isFavorite: json['favorite'] as bool,
-        id: json['id'] as String);
+      url: json['link'] as String,
+      isAnimated: json['animated'] as bool,
+      isFavorite: json['favorite'] as bool,
+      id: json['id'] as String,
+      type: json['type'] as String,
+      mp4: json['mp4'] as String,
+    );
   }
 }
 

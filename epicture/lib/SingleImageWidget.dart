@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'JsonImageParser.dart';
 
-import 'ImageDetailsPage.dart';
 import 'VideoPlayerWidget.dart';
 
 Widget chooseMediaPlayer(ImageData data) {
-  if (data.imagesInfos[0].type == 'video/mp4') {
-    return VideoPlayerWidget(videoLink: data.imagesInfos[0].mp4);
+  if (data.type == 'video/mp4') {
+    return VideoPlayerWidget(videoLink: data.link);
   } else if (data.imagesInfos[0].type.contains("video/")) {
     return Container();
   }
   return Image.network(
-    data.imagesInfos[0].url,
+    data.link,
     fit: BoxFit.contain,
     colorBlendMode: BlendMode.dstIn,
     loadingBuilder:
@@ -29,27 +28,17 @@ Widget chooseMediaPlayer(ImageData data) {
   );
 }
 
-class ImageWidget extends StatelessWidget {
+class SingleImageWidget extends StatelessWidget {
   final ImageData data;
 
-  ImageWidget({this.data});
+  SingleImageWidget({this.data});
 
   @override
   Widget build(BuildContext context) {
-    if (data.imagesInfos == null || data.imagesInfos.length == 0) {
-      return Container();
-    }
     return Card(
       color: const Color(0xFF2D1F5D),
       child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ImageDetailsPage(imageData: data),
-            ),
-          );
-        },
+        onTap: () {},
         child: Column(
           children: <Widget>[
             Stack(
@@ -119,7 +108,7 @@ class ImageWidget extends StatelessWidget {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                    text: data.imagesNbr.toString(),
+                                    text: "1",
                                     style: TextStyle(color: Colors.grey[600])),
                                 WidgetSpan(
                                   child: Icon(

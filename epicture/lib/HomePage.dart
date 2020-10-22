@@ -8,6 +8,7 @@ import 'CustomProfilAppBarButton.dart';
 import 'JsonImageParser.dart';
 import 'SearchBar.dart';
 import 'ImageWidget.dart';
+import 'SingleImageWidget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,9 +21,10 @@ class _HomePageState extends State<HomePage> {
   void getAccountAvatar() {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
 
-    http.get("https://api.imgur.com/3/account/" + userInfos.accountUsername, headers: {
-      "Authorization": "Bearer " + userInfos.accessToken,
-    }).then((response) {
+    http.get("https://api.imgur.com/3/account/" + userInfos.accountUsername,
+        headers: {
+          "Authorization": "Bearer " + userInfos.accessToken,
+        }).then((response) {
       if (response.statusCode == 200) {
         var values = json.decode(response.body);
         var data = values['data'];
@@ -34,11 +36,17 @@ class _HomePageState extends State<HomePage> {
   void getGalleryImageWithoutSearchQuery() {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
 
-    http.get("https://api.imgur.com/3/gallery/hot/viral/",
-        headers: {"Authorization": "Bearer ${userInfos.accessToken}"}).then((response) {
+    http.get("https://api.imgur.com/3/gallery/hot/viral/", headers: {
+      "Authorization": "Bearer ${userInfos.accessToken}"
+    }).then((response) {
       if (response.statusCode == 200) {
         setState(() {
           _images = parseData(response.body).data;
+          for (var image in _images) {
+            if (image.isAlbum == false) {
+              print('WOWOWOW');
+            }
+          }
         });
       }
     });
@@ -47,12 +55,15 @@ class _HomePageState extends State<HomePage> {
   void getGalleryImageWithSearchQuery() {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
 
-    http.get("https://api.imgur.com/3/gallery/search/?q=" + userInfos.querySearchImage,
-        headers: {"Authorization": "Bearer ${userInfos.accessToken}"}).then((response) {
+    http.get(
+        "https://api.imgur.com/3/gallery/search/?q=" +
+            userInfos.querySearchImage,
+        headers: {
+          "Authorization": "Bearer ${userInfos.accessToken}"
+        }).then((response) {
       if (response.statusCode == 200) {
         setState(() {
           _images = parseData(response.body).data;
-          print(_images.length);
         });
       }
     });
@@ -74,11 +85,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: <Color>[Theme.of(context).primaryColorLight, Color(0xFF3D156B)]))),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Theme.of(context).primaryColorLight,
+                Color(0xFF3D156B)
+              ],
+            ),
+          ),
+        ),
         title: Text('Home Page'),
         leading: CustomProfilAppBarButton(
           redirect: true,
@@ -96,7 +113,11 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: _images.length,
         itemBuilder: (BuildContext context, int index) {
-          return ImageWidget(data: _images[index]);
+          if (_images[index].isAlbum == false) {
+            return SingleImageWidget(data: _images[index]);
+          } else {
+            return ImageWidget(data: _images[index]);
+          }
         },
       ),
     );
