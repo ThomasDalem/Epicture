@@ -6,8 +6,10 @@ import 'package:provider/provider.dart';
 
 import '../widgets/CustomProfilAppBarButton.dart';
 import '../parsers/JsonImageParser.dart';
+import '../parsers/JsonCommentsParser.dart';
 import '../providers/UserInfo.dart';
 import '../widgets/VideoPlayerWidget.dart';
+import '../widgets/CommentsWidget.dart';
 
 Widget chooseMediaPlayer(MyImage data) {
   if (data.type == 'video/mp4') {
@@ -50,6 +52,8 @@ class _ImageDetailsPageState extends State<ImageDetailsPage>
   AnimationController _animControllerDown;
   Animation<double> _animUp;
   Animation<double> _animDown;
+  List<String> _authors = List<String>();
+  List<String> _comments = List<String>();
 
   void voteUp() {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
@@ -81,6 +85,21 @@ class _ImageDetailsPageState extends State<ImageDetailsPage>
         }
       });
     }
+    http.get(
+        'https://api.imgur.com/3/gallery/${widget.imageData.id}/comments/',
+        headers: {
+          'Authorization': 'Bearer ${userInfos.accessToken}'
+        }).then((response) {
+      if (response.statusCode == 200) {
+        CommentsData _commentsData = new CommentsData.fromJson(jsonDecode(response.body));
+        _commentsData.data.forEach((element) {
+          setState(() {
+            _comments.add(element.comment);
+            _authors.add(element.author);
+          });
+        });
+      }
+    });
   }
 
   void voteDown() {
@@ -282,7 +301,10 @@ class _ImageDetailsPageState extends State<ImageDetailsPage>
                     color: Colors.red,
                     onPressed: () => favoriteImage(_images.images[index]),
                   ),
-                  chooseMediaPlayer(_images.images[index])
+                  chooseMediaPlayer(_images.images[index]),
+                  this._authors.length != 0 && this._comments.length != 0 ?
+                    doComments(this._comments, this._authors, context) :
+                    Container(),
                 ],
               ),
             ),
