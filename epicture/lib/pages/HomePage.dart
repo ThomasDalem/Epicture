@@ -42,9 +42,17 @@ class _HomePageState extends State<HomePage> {
   void getGalleryImageWithoutSearchQuery() {
     final userInfos = Provider.of<UserInfo>(context, listen: false);
 
-    http.get("https://api.imgur.com/3/gallery/hot/viral/", headers: {
-      "Authorization": "Bearer ${userInfos.accessToken}"
-    }).then((response) {
+    http.get(
+        "https://api.imgur.com/3/gallery/" +
+            _sectionTitleItem[_sectionValue] +
+            "/" +
+            _sortTitleItem[_sortValue] +
+            "/" +
+            _windowTitleItem[_windowValue] +
+            "/",
+        headers: {
+          "Authorization": "Bearer ${userInfos.accessToken}"
+        }).then((response) {
       if (response.statusCode == 200) {
         setState(() {
           _images = parseData(response.body).data;
