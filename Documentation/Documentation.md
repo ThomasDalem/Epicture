@@ -2,7 +2,7 @@
 
 Ceci est la documentation technique officielle du projet **Epicture** proposé par **EPITECH**.
 
-Il nous est demandé de réaliser par groupes de 2, une application mobile utilisant l'**API imagur**.
+Il nous est demandé de réaliser par groupes de 2, une application mobile utilisant l'**API Imgur**.
 
 Pour réaliser ce projet nous avons décidé d'utiliser comme technologie le langage **Flutter**.
 
@@ -152,6 +152,14 @@ UserInfo :
     void logoutUser() // réinitialise les providers quand l'utilisateur se déconnecte
 
 Parseurs de données:
+Il existe différents parseurs de données, pour les différentes réponses des routes de l'API imgur.
+
+Data : Contient une list de données d'images.
+ImageData :  Contient les informations et les images d'un post sur Imgur
+MyImage : Contient les informations d'une image.
+
+parseData() : Fonction permettant de parser en entièreté la reponse d'une requete sur la gallerie de Imgur.
+
 ___
 ## III - Build APK
 
