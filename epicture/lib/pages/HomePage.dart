@@ -48,11 +48,6 @@ class _HomePageState extends State<HomePage> {
       if (response.statusCode == 200) {
         setState(() {
           _images = parseData(response.body).data;
-          for (var image in _images) {
-            if (image.isAlbum == false) {
-              print('WOWOWOW');
-            }
-          }
         });
       }
     });

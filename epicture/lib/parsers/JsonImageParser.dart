@@ -25,6 +25,7 @@ class ImageData {
   final bool isAlbum;
   final String type;
   final String mp4;
+  String vote;
 
   ImageData({
     this.accountUsername,
@@ -38,6 +39,7 @@ class ImageData {
     this.isAlbum,
     this.type,
     this.mp4,
+    this.vote,
   });
 
   factory ImageData.fromJson(Map<String, dynamic> json) {
@@ -57,6 +59,7 @@ class ImageData {
       link: json['link'] as String,
       type: json['type'] as String,
       mp4: json['mp4'] as String,
+      vote: json['vote'] as String,
       imagesInfos: myImages,
     );
   }
